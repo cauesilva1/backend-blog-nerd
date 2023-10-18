@@ -6,6 +6,8 @@ const app = express();
 
 const cors = require("cors"); // Importe o pacote cors
 
+//aqui ira ter o banco local
+
 const bcrypt = require("bcrypt");
 
 app.use(express.json());
