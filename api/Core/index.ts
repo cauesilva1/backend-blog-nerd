@@ -1,12 +1,13 @@
+import 'dotenv/config'
 import { PrismaClient } from "../../prisma/generated/client";
 const prisma = new PrismaClient();
 
 const express = require("express");
 const app = express();
-const serverless = require("serverless-http");
 
 const cors = require("cors");
 
+const port = process.env.PORT || 3000;
 
 const bcrypt = require("bcrypt");
 
@@ -20,10 +21,10 @@ app.use(
   })
 );
 
-// app.use(express.json());
-// app.listen(3333, () => {
-//   console.log("rodando");
-// });
+
+app.listen(port, () => {
+  console.log("rodando");
+});
 
 
 async function createUser(user: string, hashedPassword: string, email: string) {
@@ -215,6 +216,4 @@ app.get("/posts", async (req: any, res: any) => {
     res.status(500).json({ error: "Erro ao obter posts" });
   }
 })
-
-module.exports.handler = serverless(app);
 
