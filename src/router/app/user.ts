@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
-import { prisma } from "../../lib/prisma";
-
-const bcrypt = require("bcrypt");
+import { prisma } from "../../lib/prisma"
+import bcrypt from "bcrypt";
 
 export async function createUser(req: Request, res: Response) {
   try {
@@ -14,7 +13,7 @@ export async function createUser(req: Request, res: Response) {
     const Createuser = await prisma.user.create({
       data: {
         user,
-        hashedPassword,
+        password: hashedPassword,
         email,
       },
     });

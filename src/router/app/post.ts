@@ -43,7 +43,8 @@ export async function posts(req: Request, res: Response) {
               }
             }
           })
-
+        
+          console.log(getPosts)
           res.status(200).json(getPosts);
     } catch (error) {
         res.status(500).json({ error: "Erro ao obter posts" });
