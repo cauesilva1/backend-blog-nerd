@@ -5,8 +5,9 @@ export const router = Router()
 const app = express();
 app.use(express.json());
 
+
 //User
-router.post("/user",createUser )
+router.post("/user", createUser)
 router.post("/putUsser", putUser )
 router.post("/login", login )
 

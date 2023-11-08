@@ -3,8 +3,20 @@ import { prisma } from "../../lib/prisma"
 import bcrypt from "bcrypt";
 
 export async function createUser(req: Request, res: Response) {
+
   try {
+    
     const { user, password, email } = req.body;
+    
+    const existentUser = await prisma.user.findFirst({
+      where: {
+        email,
+      }
+    })
+
+    if(existentUser) {
+      return res.status(400).json({ error: "Email já cadastrado" })
+    }
 
     const saltRounds = 16;
 
@@ -21,6 +33,8 @@ export async function createUser(req: Request, res: Response) {
     res.status(201).json({ sucess: "Usuário criado com sucesso" });
 
   } catch (error) {
+
+    console.log(error)
 
     res.status(500).json({ error: "Erro ao criar usuário" });
   }

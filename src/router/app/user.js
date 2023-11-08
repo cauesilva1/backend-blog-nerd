@@ -19,6 +19,14 @@ function createUser(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { user, password, email } = req.body;
+            const existentUser = yield prisma_1.prisma.user.findFirst({
+                where: {
+                    email,
+                }
+            });
+            if (existentUser) {
+                return res.status(400).json({ error: "Email já cadastrado" });
+            }
             const saltRounds = 16;
             const hashedPassword = yield bcrypt_1.default.hash(password, saltRounds);
             const Createuser = yield prisma_1.prisma.user.create({
@@ -31,6 +39,7 @@ function createUser(req, res) {
             res.status(201).json({ sucess: "Usuário criado com sucesso" });
         }
         catch (error) {
+            console.log(error);
             res.status(500).json({ error: "Erro ao criar usuário" });
         }
     });
