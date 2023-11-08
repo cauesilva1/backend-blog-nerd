@@ -7,7 +7,7 @@ export async function createUser(req: Request, res: Response) {
   try {
     
     const { user, password, email } = req.body;
-    
+
     const existentUser = await prisma.user.findFirst({
       where: {
         email,
@@ -96,7 +96,7 @@ export async function login(req: Request, res: Response) {
 
     res
       .status(200)
-      .json({ message: "Login bem-sucedido", user: Buscaruser(user, password) });
+      .json({ message: "Login bem-sucedido", user: Buscaruser});
 
   } catch (error) {
      res.status(401).json({ error: "Erro ao fazer login" });
