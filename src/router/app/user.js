@@ -22,7 +22,7 @@ function createUser(req, res) {
             const existentUser = yield prisma_1.prisma.user.findFirst({
                 where: {
                     email,
-                }
+                },
             });
             if (existentUser) {
                 return res.status(400).json({ error: "Email já cadastrado" });
@@ -80,19 +80,24 @@ function login(req, res) {
                             user: username,
                         },
                     });
+                    if (FindUser == null) {
+                        throw new Error("Usuário não encontrado");
+                    }
+                    const passwordMatch = yield bcrypt_1.default.compare(password, FindUser.password);
                     if (!user) {
                         throw new Error("Usuário não encontrado");
                     }
-                    const passwordMatch = yield bcrypt_1.default.compare(password, user.password);
                     if (!passwordMatch) {
                         throw new Error("Senha incorreta");
                     }
-                    return Object.assign(Object.assign({}, user), { name: user.user });
+                    return Object.assign(Object.assign({}, FindUser), { name: FindUser.user });
                 });
             }
+            const FindSearch = yield Buscaruser(user, password);
+            console.log(FindSearch);
             res
                 .status(200)
-                .json({ message: "Login bem-sucedido", user: Buscaruser(user, password) });
+                .json({ message: "Login bem-sucedido", user: FindSearch });
         }
         catch (error) {
             res.status(401).json({ error: "Erro ao fazer login" });
