@@ -16,9 +16,13 @@ export async function createUser(req: Request, res: Response) {
       return res.status(400).json({ error: "Email já cadastrado" });
     }
 
-    const saltRounds = 16;
+    console.time("hashSenha"); 
+
+    const saltRounds = 10;
 
     const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    console.timeEnd("hashSenha"); 
 
     const Createuser = await prisma.user.create({
       data: {
@@ -27,6 +31,8 @@ export async function createUser(req: Request, res: Response) {
         email,
       },
     });
+
+    
 
     res.status(201).json({ sucess: "Usuário criado com sucesso" });
   } catch (error) {

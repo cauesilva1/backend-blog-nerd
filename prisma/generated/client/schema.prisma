@@ -28,5 +28,5 @@ model Post {
   content   String
   timestamp DateTime @default(now()) // Adiciona o campo de hora de postagem
   userId    Int
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

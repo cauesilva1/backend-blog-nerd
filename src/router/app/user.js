@@ -27,8 +27,10 @@ function createUser(req, res) {
             if (existentUser) {
                 return res.status(400).json({ error: "Email já cadastrado" });
             }
-            const saltRounds = 16;
+            console.time("hashSenha");
+            const saltRounds = 10;
             const hashedPassword = yield bcrypt_1.default.hash(password, saltRounds);
+            console.timeEnd("hashSenha");
             const Createuser = yield prisma_1.prisma.user.create({
                 data: {
                     user,
